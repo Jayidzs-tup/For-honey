@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+<meta charset="UTF-8" />
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0" />
+
+<meta
+name="description"
+content="Website sederhana" />
+
+<title>for.honey.vercel.app/database</title>
+
+<style>
+
+/* reset */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  min-height:100vh;
+  overflow:hidden;
+}
+
+/* background video */
+.bg-video{
+  position:fixed;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  /* bikin pas fullscreen */
+  object-fit:cover;
+
+  z-index:-2;
+}
+
+/* efek gelap tipis */
+.overlay{
+  position:fixed;
+  inset:0;
+
+  background:
+  rgba(0,0,0,.15);
+
+  z-index:-1;
+}
+
+body{
+  margin:0;
+  overflow:hidden;
+  min-height:100vh;
+}
+
+/* container tengah */
+.message-box{
+  position:fixed;
+
+  top:50%;
+  left:50%;
+
+  transform:
+  translate(-50%,-50%);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  z-index:99;
+}
+
+/* icon pesan */
+.message-icon{
+  position:relative;
+  overflow:visible;
+  font-size:55px;
+  background:none;
+  border:none;
+  box-shadow:none;
+
+  cursor:pointer;
+
+  user-select:none;
+  -webkit-user-select:none;
+
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:
+  transparent;
+
+  outline:none;
+  cursor:pointer;
+  
+  /* gerak balik */
+  animation:
+  shake .8s infinite;
+  transition:
+  transform .15s ease;
+}
+
+/* pas ditekan sedikit masuk */
+.message-icon:active{
+  transform:
+  scale(.88);
+}
+
+/* gelembung */
+.message-icon::after{
+  content:"";
+
+  position:absolute;
+
+  top:50%;
+  left:50%;
+
+  width:80px;
+  height:80px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,.99);
+
+  transform:
+  translate(-50%,-50%)
+  scale(0);
+
+  opacity:0;
+
+  pointer-events:none;
+}
+
+/* munculin ripple */
+.message-icon.pressed::after{
+  animation:
+  ripple .5s ease;
+}
+
+@keyframes ripple{
+
+  0%{
+    transform:
+    translate(-50%,-50%)
+    scale(.3);
+
+    opacity:.8;
+  }
+
+  100%{
+    transform:
+    translate(-50%,-50%)
+    scale(3);
+
+    opacity:0;
+  }
+}
+/* getar */
+@keyframes shake{
+
+  0%,100%{
+    transform:
+    rotate(0deg)
+    scale(1);
+  }
+
+  25%{
+    transform:
+    rotate(-4deg)
+    scale(1.03);
+  }
+
+  50%{
+    transform:
+    rotate(4deg)
+    scale(1.05);
+  }
+
+  75%{
+    transform:
+    rotate(-4deg)
+    scale(1.03);
+  }
+}
+
+/* tulisan */
+.tap-text{
+  margin-top:15px;
+
+  color:white;
+
+  font-size:18px;
+
+  animation:
+  fade 1.3s infinite;
+}
+
+/* tulisan kedip */
+@keyframes fade{
+  0%,100%{
+    opacity:.4;
+  }
+
+  50%{
+    opacity:1;
+  }
+}
+
+/* flash putih */
+.flash{
+  position:fixed;
+  inset:0;
+
+  background:white;
+
+  opacity:0;
+  pointer-events:none;
+
+  z-index:9999;
+}
+
+.flash.active{
+  animation:
+  flashbang 1.5s ease;
+}
+
+@keyframes flashbang{
+
+  0%{
+    opacity:0;
+  }
+
+  30%{
+    opacity:.95;
+  }
+
+  100%{
+    opacity:.95;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Video -->
+<video
+class="bg-video"
+autoplay
+muted
+loop
+playsinline>
+
+<source
+src="Video.mp4"
+type="video/mp4">
+
+</video>
+
+<!-- overlay -->
+<div class="overlay"></div>
+
+<div class="flash"
+id="flash">
+</div>
+
+<div class="message-box">
+
+  <div
+  class="message-icon"
+  id="messageBtn">
+
+    ✉️
+
+  </div>
+
+  <div class="tap-text">
+    Tap Message
+  </div>
+
+</div>
+
+<script>
+
+let clickCount = 0;
+
+const btn =
+document.getElementById(
+"messageBtn"
+);
+
+btn.addEventListener(
+"click",
+function(){
+
+/* ripple muncul */
+btn.classList.add(
+"pressed"
+);
+
+/* reset ripple */
+setTimeout(()=>{
+
+btn.classList.remove(
+"pressed"
+);
+
+},500);
+
+/* hitung klik */
+clickCount++;
+
+if(clickCount >= 10){
+
+/* stop getar */
+btn.style.animation =
+"none";
+
+/* flash putih */
+const flash =
+document.getElementById(
+"flash"
+);
+
+flash.classList.add(
+"active"
+);
+
+/* masuk halaman */
+setTimeout(()=>{
+
+window.location.href =
+"./congrats.html";
+
+},1500);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

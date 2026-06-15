@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>for.honey.vercel.app/database/congrats.html</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  overflow:hidden;
+  font-family: Georgia, serif;
+}
+
+/* background */
+.background{
+  position:fixed;
+  inset:0;
+  background-image:url("bg.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  z-index:-2;
+}
+
+/* cahaya lembut bergerak */
+.light-shadow{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.light-shadow::before{
+  content:"";
+  position:absolute;
+  top:-100px;
+  left:-100px;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.22) 0%, rgba(255,255,255,.10) 35%, transparent 75%);
+  filter:blur(35px);
+  animation:moveLight1 10s ease-in-out infinite alternate;
+}
+
+.light-shadow::after{
+  content:"";
+  position:absolute;
+  top:25%;
+  right:-120px;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.15) 0%, rgba(255,255,255,.07) 35%, transparent 75%);
+  filter:blur(30px);
+  animation:moveLight2 14s ease-in-out infinite alternate;
+}
+
+@keyframes moveLight1{
+  from{ transform:translate(0,0); }
+  to{ transform:translate(80px,60px); }
+}
+
+@keyframes moveLight2{
+  from{ transform:translate(0,0); }
+  to{ transform:translate(-70px,50px); }
+}
+
+/* area kertas */
+.paper-wrap{
+  position:absolute;
+  top:46%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(180px, 60vw);
+  aspect-ratio:180 / 250;
+  z-index:5;
+  overflow:visible;
+}
+
+/* kertas belakang */
+.paper-back{
+  position:absolute;
+  inset:0;
+  background:#f4efe7;
+  border-radius:8px;
+  transform:rotate(8deg);
+  box-shadow:18px 18px 35px rgba(0,0,0,.35);
+  z-index:1;
+}
+
+/* kertas depan */
+.paper-front{
+  position:absolute;
+  inset:0;
+  background:#f8f5ef;
+  border-radius:8px;
+  transform:translate(-15px,-12px);
+  overflow:hidden;
+  box-shadow:0 10px 20px rgba(0,0,0,.18);
+  z-index:2;
+}
+
+/* tekukan pojok kanan bawah */
+.paper-front::after{
+  content:"";
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:85px;
+  height:85px;
+  background:linear-gradient(135deg, #e8e3da 0%, #fdfbf7 45%, #d8d1c7 100%);
+  border-radius:18px 0 8px 0;
+  transform-origin:bottom right;
+  transform:rotate(-2deg) skew(-8deg,-8deg);
+  box-shadow:-4px -4px 10px rgba(0,0,0,.10);
+  clip-path:polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* isi halaman */
+.page-content{
+  position:absolute;
+  inset:0;
+  z-index:10;
+}
+
+.page-root{
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  overflow:hidden;
+
+  transition:
+  opacity .18s ease,
+  transform .18s ease,
+  filter .18s ease;
+}
+
+.page-root.fade-out{
+  opacity:0;
+  transform:translateY(8px) scale(.985);
+  filter:blur(6px);
+}
+
+.page-root.fade-in{
+  animation:pageIn .34s ease;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+    filter:blur(6px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+  }
+}
+
+/* cover halaman 1 */
+.page-cover{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+
+.page-title{
+  margin:0;
+  color:#4b342b;
+  font-size:32px;
+  line-height:1.05;
+  letter-spacing:.5px;
+  font-weight:bold;
+  text-shadow:0 2px 2px rgba(0,0,0,.08);
+}
+
+.page-date{
+  margin-top:18px;
+  color:#72665f;
+  font-size:18px;
+  line-height:1.4;
+}
+
+/* halaman isi biasa */
+.page-text-wrap{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  padding:
+  18px 16px 50px;
+
+  scrollbar-width:none;
+}
+
+.page-text-wrap::-webkit-scrollbar{
+  display:none;
+}
+
+/* petunjuk scroll */
+.scroll-hint{
+  position:absolute;
+
+  left:50%;
+  bottom:6px;
+
+  transform:translateX(-50%);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  pointer-events:none;
+
+  opacity:.55;
+
+  z-index:999;
+
+  animation:
+  hintMove 1.4s ease-in-out infinite;
+}
+
+.scroll-arrow{
+  font-size:13px;
+  color:#7b6556;
+}
+
+.scroll-text{
+  font-size:8px;
+  color:#7b6556;
+}
+
+@keyframes hintMove{
+
+  0%,100%{
+    transform:
+    translateX(-50%)
+    translateY(0);
+  }
+
+  50%{
+    transform:
+    translateX(-50%)
+    translateY(4px);
+  }
+
+}
+
+.page-text{
+  color:#4b342b;
+
+  font-size:12px;
+
+  line-height:1.8;
+
+  white-space:pre-line;
+
+  word-break:break-word;
+
+  text-align:left;
+
+  margin:0;
+}
+
+/* tombol halaman */
+.page-buttons{
+  position:absolute;
+  right:-114px;
+  bottom:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:99;
+}
+
+.btn-page{
+  width:112px;
+  height:30px;
+  border:none;
+  border-radius:14px;
+  background:rgba(255,248,240,.95);
+  color:#5a4032;
+  font-size:12px;
+  font-weight:bold;
+  font-family:Georgia, serif;
+  box-shadow:0 6px 14px rgba(0,0,0,.22);
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  -webkit-tap-highlight-color:transparent;
+  outline:none;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+
+.btn-page:active{
+  transform:scale(.95);
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+.btn-page:disabled{
+  opacity:.45;
+  cursor:default;
+}
+
+/* responsive */
+@media (max-width: 420px){
+  .paper-wrap{
+    width:min(172px, 62vw);
+  }
+
+  .page-buttons{
+    right:-20px;
+    bottom:-75px;
+  }
+
+  .btn-page{
+    width:102px;
+    height:29px;
+    font-size:11px;
+  }
+
+  .page-title{
+    font-size:30px;
+  }
+
+  .page-date{
+    font-size:17px;
+  }
+
+  .page-text{
+    font-size:11px;
+  }
+}
+
+/* flash putih awal */
+.flash-start{
+  position:fixed;
+  inset:0;
+
+  background:white;
+
+  z-index:9999;
+
+  pointer-events:none;
+
+  animation:
+  flashOpen 1.6s ease forwards;
+}
+
+@keyframes flashOpen{
+
+  0%{
+    opacity:1;
+  }
+
+  25%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+    visibility:hidden;
+  }
+
+}
+
+/* bintang */
+.stars{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* tiap bintang */
+.star{
+  position:absolute;
+
+  width:5px;
+  height:5px;
+
+  background:
+  rgba(255,245,210,.9);
+
+  border-radius:50%;
+
+  box-shadow:
+  0 0 8px rgba(255,240,180,.8);
+
+  animation:
+  twinkle 3s ease-in-out infinite,
+  floatStar 12s linear infinite;
+}
+
+/* kedap kedip */
+@keyframes twinkle{
+  0%,100%{
+    opacity:.2;
+    transform:scale(.8);
+  }
+
+  50%{
+    opacity:1;
+    transform:scale(1.4);
+  }
+}
+
+/* gerak pelan */
+@keyframes floatStar{
+  from{
+    transform:
+    translateY(0px);
+  }
+
+  to{
+    transform:
+    translateY(-25px);
+  }
+}
+
+/* bayangan pesawat */
+.plane-shadow{
+  position:fixed;
+
+  top:20%;
+  left:-180px;
+
+  width:120px;
+  height:50px;
+
+  background:
+  rgba(0,0,0,.08);
+
+  clip-path:
+  polygon(
+    0% 50%,
+    25% 40%,
+    45% 10%,
+    55% 10%,
+    65% 40%,
+    100% 50%,
+    65% 60%,
+    55% 90%,
+    45% 90%,
+    25% 60%
+  );
+
+  filter:
+  blur(6px);
+
+  transform:
+  rotate(-10deg);
+
+  pointer-events:none;
+
+  z-index:1;
+
+  opacity:.35;
+
+  animation:
+  flyShadow 28s linear infinite;
+}
+
+/* gerak pesawat */
+@keyframes flyShadow{
+
+  0%{
+    transform:
+    translateX(0)
+    translateY(0)
+    rotate(-8deg);
+
+    opacity:0;
+  }
+
+  10%{
+    opacity:.25;
+  }
+
+  50%{
+    opacity:.12;
+  }
+
+  100%{
+    transform:
+    translateX(140vw)
+    translateY(40px)
+    rotate(-4deg);
+
+    opacity:0;
+  }
+
+}
+</style>
+</head>
+<body>
+
+  <div class="flash-start"></div>
+  <div class="plane-shadow"></div>
+<div class="stars">
+
+  <div class="star" style="top:8%; left:12%;"></div>
+  <div class="star" style="top:15%; left:70%;"></div>
+  <div class="star" style="top:22%; left:45%;"></div>
+  <div class="star" style="top:35%; left:82%;"></div>
+  <div class="star" style="top:50%; left:15%;"></div>
+  <div class="star" style="top:60%; left:75%;"></div>
+  <div class="star" style="top:72%; left:35%;"></div>
+  <div class="star" style="top:84%; left:60%;"></div>
+
+</div>
+
+<div class="background"></div>
+<div class="light-shadow"></div>
+
+<div class="paper-wrap">
+  <div class="paper-back"></div>
+
+  <div class="paper-front">
+    <div class="page-content" id="content"></div>
+  </div>
+
+  <div class="page-buttons">
+     <button class="btn-page next" id="nextBtn">Lanjutkan →</button>
+    <button class="btn-page back" id="backBtn">← Kembali</button>
+  </div>
+</div>
+
+<audio
+id="bgMusic"
+loop
+preload="auto">
+
+<source
+src="music.mp3"
+type="audio/mpeg">
+
+</audio>
+
+<script>
+const pages = [
+  {
+    type: "cover",
+    title: "Untuk<br>Honey",
+    date: "Senin,<br>15/06/2026"
+  },
+  {
+    type: "text",
+    text: `Hai 😁. Makasih udah mampir di web ku. Aku sangat senang jika kamu benar benar mau melihat nya, dan inilah web yang ku buat sebagian, malam hari begadang sampai memberi hasil yang lumayan lah. Yah aku juga belajar dikit dikit buat ini kok dan maaf kalo memang nya buatan nya jelek atau apa nama nya juga pemula tapi trimakasih deh udah mampir. Dan sebelum itu Aku ingin sekali memberikan kejujuran ku kepada mu. 
+Namun berjanji lah. Kamu tidak akan menyidir Ama aku yah. Aku mohon semoga kamu mengerti diri ku. Karna aku tidak ingin menahan hal ini terus terusan. Dan membuatku lelah. Semoga kamu membaca nya dengan teliti yah. Silakan lanjut..`
+  },
+  {
+    type: "text",
+    text: `Sebelum lanjut ke inti aku sangat benar-benar berterimakasih banyak atas 2 Tahun ini.. yahh mungkin kamu tidak tahu apa maksud nya dan kamu pun pasti tidak mengerti dari perkataan ku ini. Tapi biarkan aku perjelaskan bahwa. Selama 2 TAHUN ini aku sangat banyak banyak berubah Karna diri mu. Walau agak aneh dan tidak jelas tapi biar ku kasih tahu. Dulu aku adalah orang yang begitu lemah `
+  },
+  {
+    type: "text",
+    text: `diri ku banyak sekali hal hal aneh. Seperti yang kamu tahu. Tahun tahun lalu aku adalah orang yang paling menjijikan. Karna aku tahu dulu wajah ku kusam, banyak jerawat, dan juga kebanyakan pendiam, bahkan aku tidak menjaga tubuh ku dengan teratur atau pun aktivitas ku dulu  orang yang terlalu malas dalam kegiatan hari hari. Namun semua nya berubah perlahan lahan. Karna berkat mu. Awal kita berbicara apakah kamu masih ingat?. Aku melihat wajah mu permakali merasa aku hidup. Bukan berarti aku memang mati atau gimana. Tapi dulu itu jiwa ku memang mati. Karna dulu itu aku ga bisa ngontrol diri ku bahkan aku melakukan hal seenak nya itupun yang ada di otak ku tiba tiba. Tapi.. `
+  },
+  {
+    type: "text",
+    text: `saat kamu datang di situlah semua nya aku berubah. Aku melihat wajah mu dan mata mu seperti malaikat surga yang menerangi aku. Dan di situlah kamu membawa aku lebih hidup hingga saat ini aku menjadi orang yang udah bisa menguasai diri. Sekarang lihat lah. Dulu nilai ku paling jelek di kelas 7 bahkan nilai SD ku saja kebanyakan di bawa kkm. Namun saat perubahan datang. Aku pun mulai meningkat. Nilai ku semakin bagus dan aku sekarang mulai rajin dan giat dalam membaca buku. Kerjaan. Atau mengatur pola hidup. Itu semua berkat mu. Dan sampai aku pun sangat bersyukur dulu aku adalah orang yang ga terlalu banyak berbakat di bidang apapun. Tapii `
+  },
+  {
+    type: "text",
+    text: `Saat itulah aku mengenal mu aku lebih banyak belajar dan mengusahakan diri ku bisa mempunyai bakat dan akhir nya aku di berikan banyak bakat. Yaitu bisa ngoding, Paidedit, jualan, main badminton, musik, dan banyak semua nya itu berkat mu. Dan aku sangat senang dengan semua hasil ini terasa hidup ku berwana karna dirimu. Jadi aku sangat berterimakasih dan bersyukur diri mulah yang telah datang dan membentuk ku perlahan lahan. Andai kalo kamu tidak hadir di hidupku waktu itu. Sudah pasti aku tidak akan tahu hidup ku sekarang akan seperti apa. Dan trimakasih karna kamu sudah buat aku lebih sadar untuk kehidupan ini yah walau agak aneh tapi. Memang ini lah semua nya aku berasa perlahan berubah karna diri mulah. Mulai dari kebiasaan, kemalasan, dan juga jaga pola hidupku sekarang sudah mulai merubahnya  walau bolos 1x buat website ini tapi aku sangat berterimakasih banyak buat pertolongan mu semua ini. Dan selain ituuu....`
+  },
+  {
+    type: "text",
+    text: `ada 1 hal yang aku ingin sampaikan namun aku mengira bahwa memang belum waktu nya mengungkap semua ini ke padamu. tapi jujur aku udah peka semenjak kita chattan saja aku sudah tau rilik mu dari awal. Tapi aku ga mau asal nebak karna aku bukan lah orang yang egois ( terkadang )
+
+
+`
+  },
+  {
+    type: "text",
+    text: `Jadii aku ingin jujur bahwa aku. Aku sangat menyukai mu. Pas pertamakali nya kita bertemu aku mulai merasakan perasaan kepada mu. Jujur entah bagaimana bisa aku bisa merasakan nya itu kepada mu tapi aku merasakan nya karna. Sifat mu baik yang ku kenal. Bahkan wajah mu begitu cantik. Kadang aku selalu memperhatikan mu karna wajah mu lah yang memberiku semangat setiap kita bertemu. Dan aku sangat bersyukur jika kamu tersenyum seperti aroma bunga yang harum memberi ku bertambah menyala dalam menjalani hari hari dan seperti nama mu yang indah juga.... Maaf yah ini terlalu cepat tapi..`
+  },
+  {
+    type: "text",
+    text: `Aku tidak ingin menahan perasaan ini. Asal kau tahu?. Setiap hari sepanjang malam. Aku selalu memikirkan mu. Aku benar benar selalu mengkhawatirkan dirimu selalu. Tentang diri mu bersama teman mu bahkan hidupmu yang kamu jalani aku sangat kawatir dan takut kamu kenapa napa. Dan mulai situlah aku terus di hantui dirimu. Tapi aku kuat untuk mengahadapi nya. Aku selalu berdoa agar kamu selalu di berikan keselamatan dan hari hari mu di berikan yang sangat indah. Dan aku berdoa selalu agar kamu menjadi anak sosok yang baik hati dan lemah lembut terhadap orang tua dan mengasihi sesama manusia. Dan akhir nya itu semua pun memang benar benar nyata bahkan menjadi sifat mu lah itu semua, di situlah aku menyukai mu. Jadi...`
+  },
+  {
+    type: "text",
+    text: `Mungkin kita sebagai teman dekat saja jika kamu mau. Karna aku juga tidak ingin terburu buru. Karna pikir lah sendiri kita masih sekolah. Kita masih banyak impian dan cita cita dan aku ga mau salah satu mimpi kita rusak karna kewatiran hal bodoh ini. Dan aku ga mau ngerusak masa depan kita pokon nya. Dan aku ingin kita hanyalah cukup sebagai teman saat ini. Jadi juga. Bila kamu ijinkan.
+Apakah boleh aku mengenal dirimu lebih dalam? Kamu pun boleh bertanya pada ku. Aku juga hanya ingin kita dekat dan terasa nyaman.... `
+  },
+  {
+    type: "text",
+    text: `Ohiya terahkir. Mohon yah jangan menyidir. Dan maaf banget seperti nya ini terlalu cepat bagi mu untuk melihat ini semua. Tapi aku benar benar peduli dengan mu. Dan aku juga ga bisa menahan perasaan. Pokok nya maaafff banget dehhh aku benar benar minta maaf yah ini juga termasuk ego. Dan yah ini semua juga tergantung kamu. Aku juga ga maksa karna itu hak mu juga. Jadi aku harap kita masih berteman aja deh dan saling mengenal aja dari 1 sama lain. Jadi trimaksih kamu udah hadir di hidupku yah makasih banyak semoga kamu sehat selalu dan di lindungi terus oleh TUHAN salam hangat dari ku wahai bunga matahari ku. ILYH = I LOVE YOU HONEY `
+  }
+];
+
+let currentPage = 0;
+
+const content = document.getElementById("content");
+const nextBtn = document.getElementById("nextBtn");
+const backBtn = document.getElementById("backBtn");
+
+function makePageHtml(page){
+
+  /* HALAMAN COVER */
+  if(page.type === "cover"){
+
+    return `
+      <div class="page-root page-cover fade-in">
+
+        <h1 class="page-title">
+          ${page.title}
+        </h1>
+
+        <p class="page-date">
+          ${page.date}
+        </p>
+
+      </div>
+    `;
+  }
+
+  /* HALAMAN TEXT */
+  const showScroll =
+  page.text.length > 320;
+
+  return `
+  <div class="page-root fade-in">
+
+    <div class="page-text-wrap">
+
+      <p class="page-text">
+        ${page.text}
+      </p>
+
+    </div>
+
+    ${
+    showScroll
+    ? `
+    <div class="scroll-hint">
+
+      <div class="scroll-arrow">
+        ↓
+      </div>
+
+      <div class="scroll-text">
+        Geser
+      </div>
+
+    </div>
+    `
+    : ""
+    }
+
+  </div>
+`;
+}
+
+let canFinish = false;
+let countdownRunning = false;
+
+function updateButtons(){
+
+  backBtn.disabled =
+  currentPage === 0;
+
+  /* halaman terakhir */
+  if(
+  currentPage ===
+  pages.length - 1
+  ){
+
+    /* biar ga ngulang countdown */
+    if(
+    !countdownRunning &&
+    !canFinish
+    ){
+
+      countdownRunning =
+      true;
+
+      let timeLeft = 5;
+
+      nextBtn.disabled =
+      true;
+
+      nextBtn.textContent =
+      `Selesai (${timeLeft})`;
+
+      const timer =
+      setInterval(()=>{
+
+        timeLeft--;
+
+        if(timeLeft > 0){
+
+          nextBtn.textContent =
+          `Selesai (${timeLeft})`;
+
+        }else{
+
+          clearInterval(
+          timer
+          );
+
+          canFinish =
+          true;
+
+          nextBtn.disabled =
+          false;
+
+          nextBtn.textContent =
+          "Selesai ✓";
+        }
+
+      },1000);
+
+    }
+
+  }else{
+
+    canFinish = false;
+    countdownRunning = false;
+
+    nextBtn.disabled =
+    false;
+
+    nextBtn.textContent =
+    "Lanjutkan →";
+
+  }
+
+}
+
+function renderPage(index){
+  content.innerHTML = makePageHtml(pages[index]);
+  updateButtons();
+}
+
+function changePage(direction){
+  const currentRoot = content.firstElementChild;
+  const nextIndex = currentPage + direction;
+
+  if(nextIndex < 0 || nextIndex >= pages.length) return;
+
+  if(currentRoot){
+    currentRoot.classList.remove("fade-in");
+    currentRoot.classList.add("fade-out");
+  }
+
+  setTimeout(() => {
+    currentPage = nextIndex;
+    renderPage(currentPage);
+  }, 220);
+}
+
+nextBtn.addEventListener(
+"click",
+() => {
+
+  /* halaman terakhir */
+  if(
+  currentPage ===
+  pages.length - 1
+  ){
+
+    /* belum boleh */
+    if(!canFinish)
+    return;
+
+    /* redirect */
+    window.location.href =
+    "./video/";
+
+    return;
+  }
+
+  changePage(1);
+
+});
+backBtn.addEventListener("click", () => changePage(-1));
+
+/* ===== MUSIC ===== */
+
+const music =
+document.getElementById(
+"bgMusic"
+);
+
+music.volume = 0.4;
+
+/* paksa play */
+function startMusic(){
+
+  music.play()
+  .catch(err => {
+    console.log(
+    "musik diblok browser",
+    err
+    );
+  });
+
+}
+
+/* pas website kebuka */
+window.onload =
+startMusic;
+
+/* pas user sentuh layar */
+document.addEventListener(
+"click",
+startMusic,
+{ once:true }
+);
+
+document.addEventListener(
+"touchstart",
+startMusic,
+{ once:true }
+);
+
+renderPage(currentPage);
+</script>
+</body>
+</html>
