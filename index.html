@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>for.honey.vercel.App</title>
+  <style>
+      
+      body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #1a0f17,
+    #2a1020,
+    #3b1529
+  );
+
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  overflow:hidden;
+
+  background:linear-gradient(
+    135deg,
+    #12030f,
+    #2b1020,
+    #47172f
+  );
+}
+
+/* Tempat bintang */
+.stars{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:-1;
+}
+
+/* Bintang kecil */
+.star{
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+
+  background:#ffd700;
+
+  box-shadow:
+  0 0 8px rgba(255,215,0,.5),
+  0 0 18px rgba(255,215,0,.2);
+
+  animation:
+  twinkle ease-in-out infinite,
+  float ease-in-out infinite;
+}
+
+/* Kelap-kelip */
+@keyframes twinkle{
+  0%,100%{
+    opacity:.25;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:1;
+    transform:scale(1.2);
+  }
+}
+
+/* Gerak pelan */
+@keyframes float{
+  0%{
+    translate:0 0;
+  }
+
+  25%{
+    translate:10px -8px;
+  }
+
+  50%{
+    translate:-8px 12px;
+  }
+
+  75%{
+    translate:12px 6px;
+  }
+
+  100%{
+    translate:0 0;
+  }
+}
+
+.chibi{
+  position:fixed;
+
+  width:80px;
+
+  top:-250px;
+  left:50%;
+
+  transform:
+  translateX(-50%);
+
+  animation:
+  turun 4s ease forwards,
+  ngambang 3s ease-in-out infinite;
+
+  border-radius:45%;
+  object-fit:cover;
+  box-shadow:
+0 0 15px rgba(255,215,0,0.5),
+0 0 30px rgba(255,215,0,0.2);
+  z-index:10;
+}
+
+/* turun dari atas */
+@keyframes turun{
+  from{
+    top:-250px;
+    opacity:0;
+  }
+
+  to{
+    top:31%;
+    transform:
+    translate(-50%, -50%);
+    opacity:1;
+  }
+}
+
+/* gerak kecil biar hidup */
+@keyframes ngambang{
+  0%,100%{
+    transform:
+    translate(-50%,-50%)
+    translateY(0px);
+  }
+
+  50%{
+    transform:
+    translate(-50%,-50%)
+    translateY(-8px);
+  }
+}
+
+.card-password{
+  position:fixed;
+
+  top:53%;
+  left:50%;
+
+  transform:translate(-25%, -25%);
+
+  width:275px;
+  height:150px;
+  padding:10px;
+
+  background:rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  border:1px solid rgba(255,255,255,.12);
+
+  /* bentuk gelombang lembut */
+  border-radius:
+  35px 60px 40px 65px /
+  45px 45px 65px 55px;
+
+  box-shadow:
+  0 0 30px rgba(255,180,220,.12);
+
+  text-align:center;
+  color:white;
+
+  z-index:9999;
+
+  /* penting */
+  opacity:0;
+
+  animation:
+  cardMasuk 1.2s ease-out forwards;
+
+  animation-delay:2s;
+}
+
+@keyframes cardMasuk{
+
+  0%{
+    opacity:0;
+
+    transform:
+    translate(-50%, -50%)
+    scaleX(.1)
+    scaleY(.2);
+  }
+
+  60%{
+    opacity:1;
+
+    transform:
+    translate(-50%, -50%)
+    scaleX(1.08)
+    scaleY(.95);
+  }
+
+  100%{
+    opacity:1;
+
+    transform:
+    translate(-50%, -50%)
+    scale(1);
+  }
+}
+
+
+  </style>
+</head>
+<body>
+    
+    <div class="stars">
+
+<div class="star" style="top:8%; left:15%; animation-duration:4s,12s;"></div>
+
+<div class="star" style="top:15%; left:70%; animation-duration:3s,14s;"></div>
+
+<div class="star" style="top:22%; left:45%; animation-duration:5s,10s;"></div>
+
+<div class="star" style="top:30%; left:85%; animation-duration:4s,13s;"></div>
+
+<div class="star" style="top:38%; left:20%; animation-duration:3s,11s;"></div>
+
+<div class="star" style="top:45%; left:60%; animation-duration:5s,15s;"></div>
+
+<div class="star" style="top:52%; left:10%; animation-duration:4s,12s;"></div>
+
+<div class="star" style="top:58%; left:78%; animation-duration:3s,14s;"></div>
+
+<div class="star" style="top:65%; left:40%; animation-duration:5s,13s;"></div>
+
+<div class="star" style="top:72%; left:88%; animation-duration:4s,10s;"></div>
+
+<div class="star" style="top:80%; left:18%; animation-duration:3s,15s;"></div>
+
+<div class="star" style="top:84%; left:55%; animation-duration:4s,12s;"></div>
+
+<div class="star" style="top:90%; left:35%; animation-duration:5s,11s;"></div>
+
+<div class="star" style="top:12%; left:90%; animation-duration:3s,13s;"></div>
+
+</div>
+
+<img src="chibi.png"
+class="chibi">
+
+<div class="card-password">
+
+  <h2>🌟 Secret Message</h2>
+
+  <p>
+    Masukkan password Dulu yah!
+  </p>
+
+  <input
+  type="password"
+  id="password"
+  placeholder=" Masukan Password..." />
+
+  <button onclick="checkPassword()">
+    Open
+  </button>
+
+</div>
+
+<script>
+function checkPassword(){
+
+const password =
+document.getElementById(
+"password"
+).value;
+
+/* password */
+if(password === "ILYH"){
+
+alert("Berhasil ");
+
+/* nanti redirect */
+window.location.href =
+"./database/";
+
+}else{
+
+alert("Password salah ");
+}
+}
+</script>
+</body>
+</html>
